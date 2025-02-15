@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Monuments</title>
+  <style>
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .grid-item {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+    .grid-item img {
+      width: 100%;
+      height: auto;
+    }
+    .grid-item .details {
+      margin-top: 10px;
+    }
+    .grid-item .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Monuments</h1>
+  <div class="grid-container">
+    <% monuments.forEach(monument => { %>
+      <div class="grid-item">
+        <img src="<%= monument.picture_url %>" alt="<%= monument.name %>">
+        <div class="details">
+          <h3><%= monument.name %></h3>
+          <p>Year Built: <%= monument.year_built %></p>
+          <p>Location: <%= monument.hramove_location %></p>
+          <p>Summary: <%= monument.hramove_summary %></p>
+        </div>
+        <div class="footer">
+          <span>Rating: <%= monument.rating %></span>
+          <span>Working Hours: <%= monument.hramove_working_hours %></span>
+          <a href="https://www.google.com/maps/dir/?api=1&destination=<%= encodeURIComponent(monument.hramove_location) %>" target="_blank">Navigate</a>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</body>
+</html>
