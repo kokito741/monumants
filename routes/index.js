@@ -4,7 +4,7 @@ const mysql = require('mysql');
 const bcrypt = require('bcrypt');
 
 const connection = mysql.createConnection({
-  host: 'http://database.kokito741.xyz',
+  host: 'database.kokito741.xyz',
   user: 'website',
   password: 'Afd3zi&aM4v7GX,',
   database: 'ux'
