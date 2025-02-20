@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var session = require('express-session');
 
 var indexRouter = require('../routes/index');
 
@@ -17,6 +18,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
+
+// Session setup
+app.use(session({
+  secret: 'your_secret_key',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // Set to true if using HTTPS
+}));
+
+// Middleware to check if user is authenticated
+app.use((req, res, next) => {
+  if (!req.session.user && req.path !== '/login' && req.path !== '/register') {
+    return res.redirect('/login');
+  }
+  next();
+});
 
 app.use('/', indexRouter);
 

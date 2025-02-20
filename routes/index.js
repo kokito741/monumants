@@ -10,7 +10,17 @@ const connection = mysql.createConnection({
   database: 'ux'
 });
 
-connection.connect();
+connection.connect((err) => {
+  if (err) {
+    console.error('Error connecting to the database:', err.stack);
+    return;
+  }
+  console.log('Connected to the database as id ' + connection.threadId);
+});
+
+router.get('/', (req, res) => {
+  res.redirect('/monuments');
+});
 
 router.get('/monuments', (req, res) => {
   const sortBy = req.query.sortBy || 'name';
@@ -45,7 +55,7 @@ router.post('/login', (req, res) => {
         if (err) throw err;
 
         if (isMatch) {
-          // Redirect to the browse page upon successful login
+          req.session.user = user; // Set the session user
           res.redirect('/monuments');
         } else {
           res.status(401).send('Invalid credentials');
@@ -78,7 +88,7 @@ router.post('/register', (req, res) => {
 
         connection.query(insertQuery, [username, email, hash], (error, results) => {
           if (error) throw error;
-          // Redirect to the browse page upon successful registration
+          req.session.user = { username, email }; // Set the session user
           res.redirect('/monuments');
         });
       });
