@@ -39,7 +39,7 @@ router.get('/monuments', (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-  res.render('login');
+  res.render('login', { error: null });
 });
 
 router.post('/login', (req, res) => {
@@ -58,11 +58,11 @@ router.post('/login', (req, res) => {
           req.session.user = user; // Set the session user
           res.redirect('/monuments');
         } else {
-          res.status(401).send('Invalid credentials');
+          res.render('login', { error: 'Invalid credentials' });
         }
       });
     } else {
-      res.status(401).send('Invalid credentials');
+      res.render('login', { error: 'Invalid credentials' });
     }
   });
 });
