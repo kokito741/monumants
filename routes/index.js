@@ -30,7 +30,7 @@ const getMonumentsQuery = (sortBy, sortOrder) => `
   ORDER BY ${sortBy} ${sortOrder}
 `;
 
-router.post('/monuments', (req, res) => {
+router.get('/monuments', (req, res) => {
   const sortBy = req.query.sortBy || 'name';
   const sortOrder = req.query.sortOrder || 'asc';
   const validSortColumns = ['name', 'rating', 'year_built', 'reviews'];
