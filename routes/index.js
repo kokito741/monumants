@@ -25,12 +25,12 @@ router.get('/', (req, res) => {
 const getMonumentsQuery = (sortBy, sortOrder) => `
   SELECT h.*, COUNT(r.id) AS total_reviews
   FROM hramove h
-  LEFT JOIN reviews r ON h.id = r.hramove_id
-  GROUP BY h.id
+  LEFT JOIN reviews r ON h.hramove_id = r.hramove_id
+  GROUP BY h.hramove_id
   ORDER BY ${sortBy} ${sortOrder}
 `;
 
-router.get('/monuments', (req, res) => {
+router.post('/monuments', (req, res) => {
   const sortBy = req.query.sortBy || 'name';
   const sortOrder = req.query.sortOrder || 'asc';
   const validSortColumns = ['name', 'rating', 'year_built', 'reviews'];
