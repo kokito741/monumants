@@ -31,9 +31,9 @@ const getMonumentsQuery = (sortBy, sortOrder) => `
 `;
 
 router.get('/monuments', (req, res) => {
-  const sortBy = req.query.sortBy || 'name';
+  const sortBy = req.query.sortBy || 'hramove_name';
   const sortOrder = req.query.sortOrder || 'asc';
-  const validSortColumns = ['name', 'rating', 'year_built', 'reviews'];
+  const validSortColumns = ['hramove_name', 'year_built','total_reviews','hramov_rating'];
 
   if (!validSortColumns.includes(sortBy)) {
     return res.status(400).send('Invalid sort column');
@@ -47,9 +47,9 @@ router.get('/monuments', (req, res) => {
 });
 
 router.post('/monuments', (req, res) => {
-  const sortBy = req.body.sortBy || 'name';
+  const sortBy = req.body.sortBy || 'hramove_name';
   const sortOrder = req.body.sortOrder || 'asc';
-  const validSortColumns = ['name', 'rating', 'year_built', 'reviews'];
+  const validSortColumns = ['hramove_name', 'year_built', 'total_reviews','hramov_rating'];
 
   if (!validSortColumns.includes(sortBy)) {
     return res.status(400).send('Invalid sort column');
