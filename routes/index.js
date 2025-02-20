@@ -18,7 +18,7 @@ connection.connect((err) => {
   console.log('Connected to the database as id ' + connection.threadId);
 });
 
-router.post('/', (req, res) => {
+router.get('/', (req, res) => {
   res.redirect('/monuments');
 });
 
@@ -44,7 +44,7 @@ router.post('/monuments', (req, res) => {
   });
 });
 
-router.post('/login', (req, res) => {
+router.get('/login', (req, res) => {
   res.render('login', { error: null });
 });
 
@@ -73,7 +73,7 @@ router.post('/login', (req, res) => {
   });
 });
 
-router.post('/register', (req, res) => {
+router.get('/register', (req, res) => {
   res.render('register', { error: null });
 });
 
