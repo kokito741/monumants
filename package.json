@@ -19,7 +19,7 @@
     "mersenne-twister": "^1.1.0",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
-    "pug": "^2.0.4",
+    "pug": "^3.0.3",
     "uglify-js": "^2.6.0"
   }
 }
