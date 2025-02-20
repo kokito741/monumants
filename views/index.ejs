@@ -30,6 +30,21 @@
 </head>
 <body>
   <h1>Monuments</h1>
+  <form action="/monuments" method="post">
+    <label for="sortBy">Sort By:</label>
+    <select id="sortBy" name="sortBy">
+      <option value="name">Name</option>
+      <option value="rating">Rating</option>
+      <option value="year_built">Year Built</option>
+      <option value="reviews">Reviews</option>
+    </select>
+    <label for="sortOrder">Sort Order:</label>
+    <select id="sortOrder" name="sortOrder">
+      <option value="asc">Ascending</option>
+      <option value="desc">Descending</option>
+    </select>
+    <button type="submit">Sort</button>
+  </form>
   <div class="grid-container">
     <% monuments.forEach(monument => { %>
       <div class="grid-item">
@@ -42,6 +57,7 @@
         </div>
         <div class="footer">
           <span>Rating: <%= monument.rating %></span>
+          <span>Total Reviews: <%= monument.total_reviews %></span>
           <span>Working Hours: <%= monument.hramove_working_hours %></span>
           <a href="https://www.google.com/maps/dir/?api=1&destination=<%= encodeURIComponent(monument.hramove_location) %>" target="_blank">Navigate</a>
         </div>

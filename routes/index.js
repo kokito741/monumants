@@ -18,27 +18,33 @@ connection.connect((err) => {
   console.log('Connected to the database as id ' + connection.threadId);
 });
 
-router.get('/', (req, res) => {
+router.post('/', (req, res) => {
   res.redirect('/monuments');
 });
 
-router.get('/monuments', (req, res) => {
-  const sortBy = req.query.sortBy || 'name';
-  const sortOrder = req.query.sortOrder || 'asc';
-  const validSortColumns = ['rating', 'year_built', 'reviews'];
+router.post('/monuments', (req, res) => {
+  const sortBy = req.body.sortBy || 'name';
+  const sortOrder = req.body.sortOrder || 'asc';
+  const validSortColumns = ['name', 'rating', 'year_built', 'reviews'];
 
   if (!validSortColumns.includes(sortBy)) {
     return res.status(400).send('Invalid sort column');
   }
 
-  const query = `SELECT * FROM hramove ORDER BY ${sortBy} ${sortOrder}`;
+  const query = `
+    SELECT h.*, COUNT(r.id) AS total_reviews
+    FROM hramove h
+    LEFT JOIN reviews r ON h.id = r.hramove_id
+    GROUP BY h.id
+    ORDER BY ${sortBy} ${sortOrder}
+  `;
   connection.query(query, (error, results) => {
     if (error) throw error;
     res.render('index', { monuments: results });
   });
 });
 
-router.get('/login', (req, res) => {
+router.post('/login', (req, res) => {
   res.render('login', { error: null });
 });
 
@@ -67,7 +73,7 @@ router.post('/login', (req, res) => {
   });
 });
 
-router.get('/register', (req, res) => {
+router.post('/register', (req, res) => {
   res.render('register', { error: null });
 });
 
