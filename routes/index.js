@@ -22,6 +22,30 @@ router.get('/', (req, res) => {
   res.redirect('/monuments');
 });
 
+const getMonumentsQuery = (sortBy, sortOrder) => `
+  SELECT h.*, COUNT(r.id) AS total_reviews
+  FROM hramove h
+  LEFT JOIN reviews r ON h.id = r.hramove_id
+  GROUP BY h.id
+  ORDER BY ${sortBy} ${sortOrder}
+`;
+
+router.get('/monuments', (req, res) => {
+  const sortBy = req.query.sortBy || 'name';
+  const sortOrder = req.query.sortOrder || 'asc';
+  const validSortColumns = ['name', 'rating', 'year_built', 'reviews'];
+
+  if (!validSortColumns.includes(sortBy)) {
+    return res.status(400).send('Invalid sort column');
+  }
+
+  const query = getMonumentsQuery(sortBy, sortOrder);
+  connection.query(query, (error, results) => {
+    if (error) throw error;
+    res.render('index', { monuments: results });
+  });
+});
+
 router.post('/monuments', (req, res) => {
   const sortBy = req.body.sortBy || 'name';
   const sortOrder = req.body.sortOrder || 'asc';
@@ -31,13 +55,7 @@ router.post('/monuments', (req, res) => {
     return res.status(400).send('Invalid sort column');
   }
 
-  const query = `
-    SELECT h.*, COUNT(r.id) AS total_reviews
-    FROM hramove h
-    LEFT JOIN reviews r ON h.id = r.hramove_id
-    GROUP BY h.id
-    ORDER BY ${sortBy} ${sortOrder}
-  `;
+  const query = getMonumentsQuery(sortBy, sortOrder);
   connection.query(query, (error, results) => {
     if (error) throw error;
     res.render('index', { monuments: results });
