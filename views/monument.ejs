@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= monument.hramove_name %></title>
+</head>
+<body>
+  <h1><%= monument.hramove_name %></h1>
+  <img src="<%= monument.picture_url %>" alt="<%= monument.hramove_name %>">
+  <p>Year Built: <%= monument.year_build %></p>
+  <p>Location: <%= monument.hramove_location %></p>
+  <p>Summary: <%= monument.hramove_summary %></p>
+  <p>Rating: <%= monument.hramov_rating %></p>
+  <p>Working Hours: <%= monument.hramove_working_hours %></p>
+  <p>Details: <%= monument.details %></p>
+  <a href="/monuments">Back to Monuments</a>
+</body>
+</html>

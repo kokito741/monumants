@@ -33,7 +33,7 @@ const getMonumentsQuery = (sortBy, sortOrder) => `
 router.get('/monuments', (req, res) => {
   const sortBy = req.query.sortBy || 'hramove_name';
   const sortOrder = req.query.sortOrder || 'asc';
-  const validSortColumns = ['hramove_name', 'year_build','total_reviews','hramov_rating'];
+  const validSortColumns = ['hramove_name', 'year_build', 'total_reviews', 'hramov_rating'];
 
   if (!validSortColumns.includes(sortBy)) {
     return res.status(400).send('Invalid sort column');
@@ -49,7 +49,7 @@ router.get('/monuments', (req, res) => {
 router.post('/monuments', (req, res) => {
   const sortBy = req.body.sortBy || 'hramove_name';
   const sortOrder = req.body.sortOrder || 'asc';
-  const validSortColumns = ['hramove_name', 'year_build', 'total_reviews','hramov_rating'];
+  const validSortColumns = ['hramove_name', 'year_build', 'total_reviews', 'hramov_rating'];
 
   if (!validSortColumns.includes(sortBy)) {
     return res.status(400).send('Invalid sort column');
@@ -59,6 +59,20 @@ router.post('/monuments', (req, res) => {
   connection.query(query, (error, results) => {
     if (error) throw error;
     res.render('index', { monuments: results });
+  });
+});
+
+router.get('/monument/:id', (req, res) => {
+  const monumentId = req.params.id;
+  const query = 'SELECT * FROM hramove WHERE hramove_id = ?';
+
+  connection.query(query, [monumentId], (error, results) => {
+    if (error) throw error;
+    if (results.length > 0) {
+      res.render('monument', { monument: results[0] });
+    } else {
+      res.status(404).send('Monument not found');
+    }
   });
 });
 

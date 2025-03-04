@@ -33,10 +33,10 @@
   <form action="/monuments" method="post">
     <label for="sortBy">Sort By:</label>
     <select id="sortBy" name="sortBy">
-      <option value="name">Name</option>
-      <option value="rating">Rating</option>
-      <option value="year_built">Year Built</option>
-      <option value="reviews">Reviews</option>
+      <option value="hramove_name">Name</option>
+      <option value="hramov_rating">Rating</option>
+      <option value="year_build">Year Built</option>
+      <option value="total_reviews">Reviews</option>
     </select>
     <label for="sortOrder">Sort Order:</label>
     <select id="sortOrder" name="sortOrder">
@@ -48,19 +48,20 @@
   <div class="grid-container">
     <% monuments.forEach(monument => { %>
       <div class="grid-item">
-        <img src="<%= monument.picture_url %>" alt="<%= monument.name %>">
-        <div class="details">
-          <h3><%= monument.name %></h3>
-          <p>Year Built: <%= monument.year_built %></p>
-          <p>Location: <%= monument.hramove_location %></p>
-          <p>Summary: <%= monument.hramove_summary %></p>
-        </div>
-        <div class="footer">
-          <span>Rating: <%= monument.rating %></span>
-          <span>Total Reviews: <%= monument.total_reviews %></span>
-          <span>Working Hours: <%= monument.hramove_working_hours %></span>
-          <a href="https://www.google.com/maps/dir/?api=1&destination=<%= encodeURIComponent(monument.hramove_location) %>" target="_blank">Navigate</a>
-        </div>
+        <a href="/monument/<%= monument.hramove_id %>">
+          <img src="<%= monument.picture_url %>" alt="<%= monument.hramove_name %>">
+          <div class="details">
+            <h3><%= monument.hramove_name %></h3>
+            <p>Year Built: <%= monument.year_build %></p>
+            <p>Location: <%= monument.hramove_location %></p>
+            <p>Summary: <%= monument.hramove_summary %></p>
+          </div>
+          <div class="footer">
+            <span>Rating: <%= monument.hramov_rating %></span>
+            <span>Total Reviews: <%= monument.total_reviews %></span>
+            <span>Working Hours: <%= monument.hramove_working_hours %></span>
+          </div>
+        </a>
       </div>
     <% }) %>
   </div>
