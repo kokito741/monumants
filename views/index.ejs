@@ -49,7 +49,7 @@
     <% monuments.forEach(monument => { %>
       <div class="grid-item">
         <a href="/monument/<%= monument.hramove_id %>">
-          <img src="<%= monument.picture_url %>" alt="<%= monument.hramove_name %>">
+          <img src="<%= monument.hramove_picture_url %>" alt="<%= monument.hramove_name %>">
           <div class="details">
             <h3><%= monument.hramove_name %></h3>
             <p>Year Built: <%= monument.year_build %></p>
