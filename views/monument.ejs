@@ -12,6 +12,40 @@
   <p>Rating: <%= monument.hramov_rating %></p>
   <p>Working Hours: <%= monument.hramove_working_hours %></p>
   <p>Details: <%= monument.details %></p>
+
+  <h2>Reviews</h2>
+  <% if (reviews.length > 0) { %>
+    <% reviews.forEach(review => { %>
+      <div class="review">
+        <p><strong><%= review.username %></strong> rated <%= review.rating %> stars</p>
+        <p><%= review.review %></p>
+        <p><small><%= review.created_at %></small></p>
+      </div>
+    <% }) %>
+  <% } else { %>
+    <p>No reviews yet.</p>
+  <% } %>
+
+  <h2>Leave a Review</h2>
+  <form action="/monument/<%= monument.hramove_id %>/review" method="post">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+    <br>
+    <label for="rating">Rating:</label>
+    <select id="rating" name="rating" required>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+    <br>
+    <label for="review">Review:</label>
+    <textarea id="review" name="review" required></textarea>
+    <br>
+    <button type="submit">Submit Review</button>
+  </form>
+
   <a href="/monuments">Back to Monuments</a>
 </body>
 </html>

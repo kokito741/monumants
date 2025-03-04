@@ -64,15 +64,30 @@ router.post('/monuments', (req, res) => {
 
 router.get('/monument/:id', (req, res) => {
   const monumentId = req.params.id;
-  const query = 'SELECT * FROM hramove WHERE hramove_id = ?';
+  const monumentQuery = 'SELECT * FROM hramove WHERE hramove_id = ?';
+  const reviewsQuery = 'SELECT * FROM reviews WHERE hramove_id = ? ORDER BY created_at DESC';
 
-  connection.query(query, [monumentId], (error, results) => {
+  connection.query(monumentQuery, [monumentId], (error, monumentResults) => {
     if (error) throw error;
-    if (results.length > 0) {
-      res.render('monument', { monument: results[0] });
+    if (monumentResults.length > 0) {
+      connection.query(reviewsQuery, [monumentId], (error, reviewsResults) => {
+        if (error) throw error;
+        res.render('monument', { monument: monumentResults[0], reviews: reviewsResults });
+      });
     } else {
       res.status(404).send('Monument not found');
     }
+  });
+});
+
+router.post('/monument/:id/review', (req, res) => {
+  const monumentId = req.params.id;
+  const { username, rating, review } = req.body;
+  const insertReviewQuery = 'INSERT INTO reviews (hramove_id, username, rating, review) VALUES (?, ?, ?, ?)';
+
+  connection.query(insertReviewQuery, [monumentId, username, rating, review], (error, results) => {
+    if (error) throw error;
+    res.redirect(`/monument/${monumentId}`);
   });
 });
 
