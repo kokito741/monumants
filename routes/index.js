@@ -23,7 +23,7 @@ router.get('/', (req, res) => {
 });
 
 const getMonumentsQuery = (sortBy, sortOrder) => `
-  SELECT h.*, COUNT(r.id) AS total_reviews
+  SELECT h.*, COUNT(r.id) AS total_reviews, AVG(r.rating) AS avg_rating
   FROM hramove h
   LEFT JOIN reviews r ON h.hramove_id = r.hramove_id
   GROUP BY h.hramove_id
@@ -33,7 +33,7 @@ const getMonumentsQuery = (sortBy, sortOrder) => `
 router.get('/monuments', (req, res) => {
   const sortBy = req.query.sortBy || 'hramove_name';
   const sortOrder = req.query.sortOrder || 'asc';
-  const validSortColumns = ['hramove_name', 'year_build', 'total_reviews', 'hramov_rating'];
+  const validSortColumns = ['hramove_name', 'year_build', 'total_reviews', 'avg_rating'];
 
   if (!validSortColumns.includes(sortBy)) {
     return res.status(400).send('Invalid sort column');
@@ -49,7 +49,7 @@ router.get('/monuments', (req, res) => {
 router.post('/monuments', (req, res) => {
   const sortBy = req.body.sortBy || 'hramove_name';
   const sortOrder = req.body.sortOrder || 'asc';
-  const validSortColumns = ['hramove_name', 'year_build', 'total_reviews', 'hramov_rating'];
+  const validSortColumns = ['hramove_name', 'year_build', 'total_reviews', 'avg_rating'];
 
   if (!validSortColumns.includes(sortBy)) {
     return res.status(400).send('Invalid sort column');
@@ -64,7 +64,13 @@ router.post('/monuments', (req, res) => {
 
 router.get('/monument/:id', (req, res) => {
   const monumentId = req.params.id;
-  const monumentQuery = 'SELECT * FROM hramove WHERE hramove_id = ?';
+  const monumentQuery = `
+    SELECT h.*, AVG(r.rating) AS avg_rating
+    FROM hramove h
+    LEFT JOIN reviews r ON h.hramove_id = r.hramove_id
+    WHERE h.hramove_id = ?
+    GROUP BY h.hramove_id
+  `;
   const reviewsQuery = 'SELECT * FROM reviews WHERE hramove_id = ? ORDER BY created_at DESC';
 
   connection.query(monumentQuery, [monumentId], (error, monumentResults) => {
