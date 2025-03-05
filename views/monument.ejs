@@ -13,6 +13,16 @@
   <p>Working Hours: <%= monument.hramove_working_hours %></p>
   <p>Details: <%= monument.details %></p>
 
+  <% if (userFavourited) { %>
+    <form action="/monument/<%= monument.hramove_id %>/unfavourite" method="post">
+      <button type="submit">Remove from Favourites</button>
+    </form>
+  <% } else { %>
+    <form action="/monument/<%= monument.hramove_id %>/favourite" method="post">
+      <button type="submit">Add to Favourites</button>
+    </form>
+  <% } %>
+
   <h2>Reviews</h2>
   <% if (reviews.length > 0) { %>
     <% reviews.forEach(review => { %>

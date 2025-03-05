@@ -97,6 +97,28 @@ router.post('/monument/:id/review', (req, res) => {
   });
 });
 
+router.post('/monument/:id/favourite', (req, res) => {
+  const monumentId = req.params.id;
+  const userId = req.session.user.id;
+  const insertFavouriteQuery = 'INSERT INTO favourites (user_id, hramove_id) VALUES (?, ?)';
+
+  connection.query(insertFavouriteQuery, [userId, monumentId], (error, results) => {
+    if (error) throw error;
+    res.redirect(`/monument/${monumentId}`);
+  });
+});
+
+router.post('/monument/:id/unfavourite', (req, res) => {
+  const monumentId = req.params.id;
+  const userId = req.session.user.id;
+  const deleteFavouriteQuery = 'DELETE FROM favourites WHERE user_id = ? AND hramove_id = ?';
+
+  connection.query(deleteFavouriteQuery, [userId, monumentId], (error, results) => {
+    if (error) throw error;
+    res.redirect(`/monument/${monumentId}`);
+  });
+});
+
 router.get('/login', (req, res) => {
   res.render('login', { error: null });
 });
