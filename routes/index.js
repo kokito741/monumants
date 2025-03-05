@@ -132,10 +132,12 @@ router.post('/monument/:id/unfavourite', (req, res) => {
 router.get('/favourites', (req, res) => {
   const userId = req.session.user.id;
   const favouritesQuery = `
-    SELECT h.*
+    SELECT h.*, AVG(r.rating) AS avg_rating, COUNT(r.id) AS total_reviews
     FROM hramove h
+    LEFT JOIN reviews r ON h.hramove_id = r.hramove_id
     JOIN favourites f ON h.hramove_id = f.hramove_id
     WHERE f.user_id = ?
+    GROUP BY h.hramove_id
   `;
 
   connection.query(favouritesQuery, [userId], (error, results) => {
