@@ -72,7 +72,7 @@ router.post('/monuments', (req, res) => {
 
 router.get('/monument/:id', (req, res) => {
   const monumentId = req.params.id;
-  const userId = req.session.user ? req.session.user.id : null;
+  const userId = req.session.user ? req.session.user.user_id : null;
   const monumentQuery = `
     SELECT h.*, AVG(r.rating) AS avg_rating
     FROM hramove h
