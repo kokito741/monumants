@@ -120,7 +120,7 @@ router.post('/monument/:id/favourite', isLoggedIn, (req, res) => {
   const monumentId = req.params.id;
   const userId = req.session.user.id;
   const insertFavouriteQuery = 'INSERT INTO favourites (user_id, hramove_id) VALUES (?, ?)';
-
+  console.log(userId, monumentId);
   connection.query(insertFavouriteQuery, [userId, monumentId], (error, results) => {
     if (error) throw error;
     res.redirect(`/monument/${monumentId}`);
