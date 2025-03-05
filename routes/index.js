@@ -118,11 +118,15 @@ router.post('/monument/:id/review', isLoggedIn, (req, res) => {
 
 router.post('/monument/:id/favourite', isLoggedIn, (req, res) => {
   const monumentId = req.params.id;
-  const userId = req.session.user.id;
-  console.log('User ID:', userId); // Debugging statement
-  const insertFavouriteQuery = 'INSERT INTO favourites (user_id, hramove_id) VALUES (?, ?)';
+  const userId = req.session.user ? req.session.user.user_id : null;
   console.log('Session User:', req.session.user); // Debugging statement
   console.log('User ID:', userId); // Debugging statement
+
+  if (!userId) {
+    return res.redirect('/login');
+  }
+
+  const insertFavouriteQuery = 'INSERT INTO favourites (user_id, hramove_id) VALUES (?, ?)';
   connection.query(insertFavouriteQuery, [userId, monumentId], (error, results) => {
     if (error) throw error;
     res.redirect(`/monument/${monumentId}`);
@@ -131,7 +135,7 @@ router.post('/monument/:id/favourite', isLoggedIn, (req, res) => {
 
 router.post('/monument/:id/unfavourite', isLoggedIn, (req, res) => {
   const monumentId = req.params.id;
-  const userId = req.session.user.id;
+  const userId = req.session.user.user_id;
   const deleteFavouriteQuery = 'DELETE FROM favourites WHERE user_id = ? AND hramove_id = ?';
 
   connection.query(deleteFavouriteQuery, [userId, monumentId], (error, results) => {
@@ -141,7 +145,7 @@ router.post('/monument/:id/unfavourite', isLoggedIn, (req, res) => {
 });
 
 router.get('/favourites', isLoggedIn, (req, res) => {
-  const userId = req.session.user.id;
+  const userId = req.session.user.user_id;
   const favouritesQuery = `
     SELECT h.*, AVG(r.rating) AS avg_rating, COUNT(r.id) AS total_reviews
     FROM hramove h
