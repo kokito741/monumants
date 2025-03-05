@@ -64,6 +64,7 @@ router.post('/monuments', (req, res) => {
 
 router.get('/monument/:id', (req, res) => {
   const monumentId = req.params.id;
+  const userId = req.session.user ? req.session.user.id : null;
   const monumentQuery = `
     SELECT h.*, AVG(r.rating) AS avg_rating
     FROM hramove h
@@ -72,13 +73,22 @@ router.get('/monument/:id', (req, res) => {
     GROUP BY h.hramove_id
   `;
   const reviewsQuery = 'SELECT * FROM reviews WHERE hramove_id = ? ORDER BY created_at DESC';
+  const favouriteQuery = 'SELECT * FROM favourites WHERE user_id = ? AND hramove_id = ?';
 
   connection.query(monumentQuery, [monumentId], (error, monumentResults) => {
     if (error) throw error;
     if (monumentResults.length > 0) {
       connection.query(reviewsQuery, [monumentId], (error, reviewsResults) => {
         if (error) throw error;
-        res.render('monument', { monument: monumentResults[0], reviews: reviewsResults });
+        if (userId) {
+          connection.query(favouriteQuery, [userId, monumentId], (error, favouriteResults) => {
+            if (error) throw error;
+            const userFavourited = favouriteResults.length > 0;
+            res.render('monument', { monument: monumentResults[0], reviews: reviewsResults, userFavourited });
+          });
+        } else {
+          res.render('monument', { monument: monumentResults[0], reviews: reviewsResults, userFavourited: false });
+        }
       });
     } else {
       res.status(404).send('Monument not found');
@@ -116,6 +126,21 @@ router.post('/monument/:id/unfavourite', (req, res) => {
   connection.query(deleteFavouriteQuery, [userId, monumentId], (error, results) => {
     if (error) throw error;
     res.redirect(`/monument/${monumentId}`);
+  });
+});
+
+router.get('/favourites', (req, res) => {
+  const userId = req.session.user.id;
+  const favouritesQuery = `
+    SELECT h.*
+    FROM hramove h
+    JOIN favourites f ON h.hramove_id = f.hramove_id
+    WHERE f.user_id = ?
+  `;
+
+  connection.query(favouritesQuery, [userId], (error, results) => {
+    if (error) throw error;
+    res.render('favourites', { monuments: results });
   });
 });
 
