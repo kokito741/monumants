@@ -45,6 +45,7 @@
             <span>Average Rating: <%= monument.avg_rating %></span>
             <span>Total Reviews: <%= monument.total_reviews %></span>
             <span>Working Hours: <%= monument.hramove_working_hours %></span>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=<%= encodeURIComponent(monument.hramove_location) %>" target="_blank">Navigate Me</a>
           </div>
         </a>
       </div>

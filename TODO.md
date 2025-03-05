@@ -7,3 +7,4 @@
 - [ ] Fix ui to be better.
 - [ ] Add My favourite function .
 - [ ] Add navigate me to button in detailed and in summery .
+- [ ] make the review to automaticly implement the username .

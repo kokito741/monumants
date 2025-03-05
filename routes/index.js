@@ -18,6 +18,14 @@ connection.connect((err) => {
   console.log('Connected to the database as id ' + connection.threadId);
 });
 
+const isLoggedIn = (req, res, next) => {
+  if (req.session.user) {
+    next();
+  } else {
+    res.redirect('/login');
+  }
+};
+
 router.get('/', (req, res) => {
   res.redirect('/monuments');
 });
@@ -96,9 +104,10 @@ router.get('/monument/:id', (req, res) => {
   });
 });
 
-router.post('/monument/:id/review', (req, res) => {
+router.post('/monument/:id/review', isLoggedIn, (req, res) => {
   const monumentId = req.params.id;
-  const { username, rating, review } = req.body;
+  const username = req.session.user.username;
+  const { rating, review } = req.body;
   const insertReviewQuery = 'INSERT INTO reviews (hramove_id, username, rating, review) VALUES (?, ?, ?, ?)';
 
   connection.query(insertReviewQuery, [monumentId, username, rating, review], (error, results) => {
@@ -107,7 +116,7 @@ router.post('/monument/:id/review', (req, res) => {
   });
 });
 
-router.post('/monument/:id/favourite', (req, res) => {
+router.post('/monument/:id/favourite', isLoggedIn, (req, res) => {
   const monumentId = req.params.id;
   const userId = req.session.user.id;
   const insertFavouriteQuery = 'INSERT INTO favourites (user_id, hramove_id) VALUES (?, ?)';
@@ -118,7 +127,7 @@ router.post('/monument/:id/favourite', (req, res) => {
   });
 });
 
-router.post('/monument/:id/unfavourite', (req, res) => {
+router.post('/monument/:id/unfavourite', isLoggedIn, (req, res) => {
   const monumentId = req.params.id;
   const userId = req.session.user.id;
   const deleteFavouriteQuery = 'DELETE FROM favourites WHERE user_id = ? AND hramove_id = ?';
@@ -129,7 +138,7 @@ router.post('/monument/:id/unfavourite', (req, res) => {
   });
 });
 
-router.get('/favourites', (req, res) => {
+router.get('/favourites', isLoggedIn, (req, res) => {
   const userId = req.session.user.id;
   const favouritesQuery = `
     SELECT h.*, AVG(r.rating) AS avg_rating, COUNT(r.id) AS total_reviews
