@@ -121,7 +121,8 @@ router.post('/monument/:id/favourite', isLoggedIn, (req, res) => {
   const userId = req.session.user.id;
   console.log('User ID:', userId); // Debugging statement
   const insertFavouriteQuery = 'INSERT INTO favourites (user_id, hramove_id) VALUES (?, ?)';
-
+  console.log('Session User:', req.session.user); // Debugging statement
+  console.log('User ID:', userId); // Debugging statement
   connection.query(insertFavouriteQuery, [userId, monumentId], (error, results) => {
     if (error) throw error;
     res.redirect(`/monument/${monumentId}`);
@@ -174,6 +175,7 @@ router.post('/login', (req, res) => {
 
         if (isMatch) {
           req.session.user = user; // Set the session user
+          console.log('User logged in:', user); // Debugging statement
           res.redirect('/monuments');
         } else {
           res.render('login', { error: 'Invalid credentials' });
