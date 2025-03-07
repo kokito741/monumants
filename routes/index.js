@@ -30,10 +30,14 @@ router.get('/', (req, res) => {
   res.redirect('/monuments');
 });
 
-const getMonumentsQuery = (sortBy, sortOrder) => `
+const getMonumentsQuery = (sortBy, sortOrder, monumentType, religionType) => `
   SELECT h.*, COUNT(r.id) AS total_reviews, AVG(r.rating) AS avg_rating
   FROM hramove h
   LEFT JOIN reviews r ON h.hramove_id = r.hramove_id
+  ${monumentType || religionType ? 'WHERE' : ''}
+  ${monumentType ? `h.monument_type = '${monumentType}'` : ''}
+  ${monumentType && religionType ? 'AND' : ''}
+  ${religionType ? `h.religion_type = '${religionType}'` : ''}
   GROUP BY h.hramove_id
   ORDER BY ${sortBy} ${sortOrder}
 `;
@@ -41,32 +45,36 @@ const getMonumentsQuery = (sortBy, sortOrder) => `
 router.get('/monuments', (req, res) => {
   const sortBy = req.query.sortBy || 'hramove_name';
   const sortOrder = req.query.sortOrder || 'asc';
+  const monumentType = req.query.monumentType || null;
+  const religionType = req.query.religionType || null;
   const validSortColumns = ['hramove_name', 'year_build', 'total_reviews', 'avg_rating'];
 
   if (!validSortColumns.includes(sortBy)) {
     return res.status(400).send('Invalid sort column');
   }
 
-  const query = getMonumentsQuery(sortBy, sortOrder);
+  const query = getMonumentsQuery(sortBy, sortOrder, monumentType, religionType);
   connection.query(query, (error, results) => {
     if (error) throw error;
-    res.render('index', { monuments: results });
+    res.render('index', { monuments: results, monumentType, religionType });
   });
 });
 
 router.post('/monuments', (req, res) => {
   const sortBy = req.body.sortBy || 'hramove_name';
   const sortOrder = req.body.sortOrder || 'asc';
+  const monumentType = req.body.monumentType || null;
+  const religionType = req.body.religionType || null;
   const validSortColumns = ['hramove_name', 'year_build', 'total_reviews', 'avg_rating'];
 
   if (!validSortColumns.includes(sortBy)) {
     return res.status(400).send('Invalid sort column');
   }
 
-  const query = getMonumentsQuery(sortBy, sortOrder);
+  const query = getMonumentsQuery(sortBy, sortOrder, monumentType, religionType);
   connection.query(query, (error, results) => {
     if (error) throw error;
-    res.render('index', { monuments: results });
+    res.render('index', { monuments: results, monumentType, religionType });
   });
 });
 
