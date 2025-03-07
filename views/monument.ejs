@@ -12,6 +12,8 @@
   <p>Average Rating: <%= monument.avg_rating %></p>
   <p>Working Hours: <%= monument.hramove_working_hours %></p>
   <p>Details: <%= monument.details %></p>
+  <p>Monument Type: <%= monument.monument_type %></p>
+  <p>Religion Type: <%= monument.religion_type %></p>
   <a href="https://www.google.com/maps/dir/?api=1&destination=<%= encodeURIComponent(monument.hramove_name) %>" target="_blank">Navigate Me</a>
 
   <% if (userFavourited) { %>

@@ -54,9 +54,24 @@ router.get('/monuments', (req, res) => {
   }
 
   const query = getMonumentsQuery(sortBy, sortOrder, monumentType, religionType);
+  const monumentTypesQuery = 'SELECT DISTINCT monument_type FROM hramove';
+  const religionTypesQuery = 'SELECT DISTINCT religion_type FROM hramove';
+
   connection.query(query, (error, results) => {
     if (error) throw error;
-    res.render('index', { monuments: results, monumentType, religionType });
+    connection.query(monumentTypesQuery, (error, monumentTypes) => {
+      if (error) throw error;
+      connection.query(religionTypesQuery, (error, religionTypes) => {
+        if (error) throw error;
+        res.render('index', { 
+          monuments: results, 
+          monumentType, 
+          religionType, 
+          monumentTypes: monumentTypes.map(row => row.monument_type), 
+          religionTypes: religionTypes.map(row => row.religion_type) 
+        });
+      });
+    });
   });
 });
 
@@ -72,9 +87,24 @@ router.post('/monuments', (req, res) => {
   }
 
   const query = getMonumentsQuery(sortBy, sortOrder, monumentType, religionType);
+  const monumentTypesQuery = 'SELECT DISTINCT monument_type FROM hramove';
+  const religionTypesQuery = 'SELECT DISTINCT religion_type FROM hramove';
+
   connection.query(query, (error, results) => {
     if (error) throw error;
-    res.render('index', { monuments: results, monumentType, religionType });
+    connection.query(monumentTypesQuery, (error, monumentTypes) => {
+      if (error) throw error;
+      connection.query(religionTypesQuery, (error, religionTypes) => {
+        if (error) throw error;
+        res.render('index', { 
+          monuments: results, 
+          monumentType, 
+          religionType, 
+          monumentTypes: monumentTypes.map(row => row.monument_type), 
+          religionTypes: religionTypes.map(row => row.religion_type) 
+        });
+      });
+    });
   });
 });
 
