@@ -8,14 +8,14 @@
   <div class="container">
     <h1><%= monument.hramove_name %></h1>
     <img src="<%= monument.hramove_picture_url %>" alt="<%= monument.hramove_name %>">
-    <p>Year Built: <%= monument.year_build %></p>
-    <p>Location: <%= monument.hramove_location %></p>
-    <p>Summary: <%= monument.hramove_summary %></p>
-    <p>Average Rating: <%= monument.avg_rating %></p>
-    <p>Working Hours: <%= monument.hramove_working_hours %></p>
-    <p>Details: <%= monument.details %></p>
-    <p>Monument Type: <%= monument.monument_type %></p>
-    <p>Religion Type: <%= monument.religion_type %></p>
+    <p><strong>Year Built:</strong> <%= monument.year_build %></p>
+    <p><strong>Location:</strong> <%= monument.hramove_location %></p>
+    <p><strong>Summary:</strong> <%= monument.hramove_summary %></p>
+    <p><strong>Average Rating:</strong> <%= monument.avg_rating %></p>
+    <p><strong>Working Hours:</strong> <%= monument.hramove_working_hours %></p>
+    <p><strong>Details:</strong> <%= monument.details %></p>
+    <p><strong>Monument Type:</strong> <%= monument.monument_type %></p>
+    <p><strong>Religion Type:</strong> <%= monument.religion_type %></p>
     <a href="https://www.google.com/maps/dir/?api=1&destination=<%= encodeURIComponent(monument.hramove_name) %>" target="_blank">Navigate Me</a>
 
     <% if (userFavourited) { %>
