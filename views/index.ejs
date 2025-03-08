@@ -2,86 +2,64 @@
 <html>
 <head>
   <title>Monuments</title>
-  <style>
-    .grid-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-    }
-    .grid-item {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: center;
-    }
-    .grid-item img {
-      width: 100%;
-      height: auto;
-    }
-    .grid-item .details {
-      margin-top: 10px;
-    }
-    .grid-item .footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 10px;
-    }
-  </style>
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <h1>Monuments</h1>
-  <form action="/monuments" method="post">
-    <label for="sortBy">Sort By:</label>
-    <select id="sortBy" name="sortBy">
-      <option value="hramove_name">Name</option>
-      <option value="avg_rating">Rating</option>
-      <option value="year_build">Year Built</option>
-      <option value="total_reviews">Reviews</option>
-    </select>
-    <label for="sortOrder">Sort Order:</label>
-    <select id="sortOrder" name="sortOrder">
-      <option value="asc">Ascending</option>
-      <option value="desc">Descending</option>
-    </select>
-    <label for="monumentType">Monument Type:</label>
-    <select id="monumentType" name="monumentType">
-      <option value="">All</option>
-      <% monumentTypes.forEach(type => { %>
-        <option value="<%= type %>"><%= type %></option>
+  <div class="container">
+    <h1>Monuments</h1>
+    <form action="/monuments" method="post">
+      <label for="sortBy">Sort By:</label>
+      <select id="sortBy" name="sortBy">
+        <option value="hramove_name">Name</option>
+        <option value="avg_rating">Rating</option>
+        <option value="year_build">Year Built</option>
+        <option value="total_reviews">Reviews</option>
+      </select>
+      <label for="sortOrder">Sort Order:</label>
+      <select id="sortOrder" name="sortOrder">
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+      </select>
+      <label for="monumentType">Monument Type:</label>
+      <select id="monumentType" name="monumentType">
+        <option value="">All</option>
+        <% monumentTypes.forEach(type => { %>
+          <option value="<%= type %>"><%= type %></option>
+        <% }) %>
+      </select>
+      <label for="religionType">Religion Type:</label>
+      <select id="religionType" name="religionType">
+        <option value="">All</option>
+        <% religionTypes.forEach(type => { %>
+          <option value="<%= type %>"><%= type %></option>
+        <% }) %>
+      </select>
+      <button type="submit">Sort</button>
+    </form>
+    <div class="grid-container">
+      <% monuments.forEach(monument => { %>
+        <div class="grid-item">
+          <a href="/monument/<%= monument.hramove_id %>">
+            <img src="<%= monument.hramove_picture_url %>" alt="<%= monument.hramove_name %>">
+            <div class="details">
+              <h3><%= monument.hramove_name %></h3>
+              <p>Year Built: <%= monument.year_build %></p>
+              <p>Location: <%= monument.hramove_location %></p>
+              <p>Summary: <%= monument.hramove_summary %></p>
+              <p>Monument Type: <%= monument.monument_type %></p>
+              <p>Religion Type: <%= monument.religion_type %></p>
+            </div>
+            <div class="footer">
+              <span>Average Rating: <%= monument.avg_rating %></span>
+              <span>Total Reviews: <%= monument.total_reviews %></span>
+              <span>Working Hours: <%= monument.hramove_working_hours %></span>
+              <a href="https://www.google.com/maps/dir/?api=1&destination=<%= encodeURIComponent(monument.hramove_name) %>" target="_blank">Navigate Me</a>
+            </div>
+          </a>
+        </div>
       <% }) %>
-    </select>
-    <label for="religionType">Religion Type:</label>
-    <select id="religionType" name="religionType">
-      <option value="">All</option>
-      <% religionTypes.forEach(type => { %>
-        <option value="<%= type %>"><%= type %></option>
-      <% }) %>
-    </select>
-    <button type="submit">Sort</button>
-  </form>
-  <div class="grid-container">
-    <% monuments.forEach(monument => { %>
-      <div class="grid-item">
-        <a href="/monument/<%= monument.hramove_id %>">
-          <img src="<%= monument.hramove_picture_url %>" alt="<%= monument.hramove_name %>">
-          <div class="details">
-            <h3><%= monument.hramove_name %></h3>
-            <p>Year Built: <%= monument.year_build %></p>
-            <p>Location: <%= monument.hramove_location %></p>
-            <p>Summary: <%= monument.hramove_summary %></p>
-            <p>Monument Type: <%= monument.monument_type %></p>
-            <p>Religion Type: <%= monument.religion_type %></p>
-          </div>
-          <div class="footer">
-            <span>Average Rating: <%= monument.avg_rating %></span>
-            <span>Total Reviews: <%= monument.total_reviews %></span>
-            <span>Working Hours: <%= monument.hramove_working_hours %></span>
-            <a href="https://www.google.com/maps/dir/?api=1&destination=<%= encodeURIComponent(monument.hramove_name) %>" target="_blank">Navigate Me</a>
-          </div>
-        </a>
-      </div>
-    <% }) %>
+    </div>
+    <a href="/favourites">My Favourite Monuments</a>
   </div>
-  <a href="/favourites">My Favourite Monuments</a>
 </body>
 </html>

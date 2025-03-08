@@ -2,60 +2,63 @@
 <html>
 <head>
   <title><%= monument.hramove_name %></title>
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <h1><%= monument.hramove_name %></h1>
-  <img src="<%= monument.hramove_picture_url %>" alt="<%= monument.hramove_name %>">
-  <p>Year Built: <%= monument.year_build %></p>
-  <p>Location: <%= monument.hramove_location %></p>
-  <p>Summary: <%= monument.hramove_summary %></p>
-  <p>Average Rating: <%= monument.avg_rating %></p>
-  <p>Working Hours: <%= monument.hramove_working_hours %></p>
-  <p>Details: <%= monument.details %></p>
-  <p>Monument Type: <%= monument.monument_type %></p>
-  <p>Religion Type: <%= monument.religion_type %></p>
-  <a href="https://www.google.com/maps/dir/?api=1&destination=<%= encodeURIComponent(monument.hramove_name) %>" target="_blank">Navigate Me</a>
+  <div class="container">
+    <h1><%= monument.hramove_name %></h1>
+    <img src="<%= monument.hramove_picture_url %>" alt="<%= monument.hramove_name %>">
+    <p>Year Built: <%= monument.year_build %></p>
+    <p>Location: <%= monument.hramove_location %></p>
+    <p>Summary: <%= monument.hramove_summary %></p>
+    <p>Average Rating: <%= monument.avg_rating %></p>
+    <p>Working Hours: <%= monument.hramove_working_hours %></p>
+    <p>Details: <%= monument.details %></p>
+    <p>Monument Type: <%= monument.monument_type %></p>
+    <p>Religion Type: <%= monument.religion_type %></p>
+    <a href="https://www.google.com/maps/dir/?api=1&destination=<%= encodeURIComponent(monument.hramove_name) %>" target="_blank">Navigate Me</a>
 
-  <% if (userFavourited) { %>
-    <form action="/monument/<%= monument.hramove_id %>/unfavourite" method="post">
-      <button type="submit">Remove from Favourites</button>
+    <% if (userFavourited) { %>
+      <form action="/monument/<%= monument.hramove_id %>/unfavourite" method="post">
+        <button type="submit">Remove from Favourites</button>
+      </form>
+    <% } else { %>
+      <form action="/monument/<%= monument.hramove_id %>/favourite" method="post">
+        <button type="submit">Add to Favourites</button>
+      </form>
+    <% } %>
+
+    <h2>Reviews</h2>
+    <% if (reviews.length > 0) { %>
+      <% reviews.forEach(review => { %>
+        <div class="review">
+          <p><strong><%= review.username %></strong> rated <%= review.rating %> stars</p>
+          <p><%= review.review %></p>
+          <p><small><%= review.created_at %></small></p>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <p>No reviews yet.</p>
+    <% } %>
+
+    <h2>Leave a Review</h2>
+    <form action="/monument/<%= monument.hramove_id %>/review" method="post">
+      <label for="rating">Rating:</label>
+      <select id="rating" name="rating" required>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <br>
+      <label for="review">Review:</label>
+      <textarea id="review" name="review" required></textarea>
+      <br>
+      <button type="submit">Submit Review</button>
     </form>
-  <% } else { %>
-    <form action="/monument/<%= monument.hramove_id %>/favourite" method="post">
-      <button type="submit">Add to Favourites</button>
-    </form>
-  <% } %>
 
-  <h2>Reviews</h2>
-  <% if (reviews.length > 0) { %>
-    <% reviews.forEach(review => { %>
-      <div class="review">
-        <p><strong><%= review.username %></strong> rated <%= review.rating %> stars</p>
-        <p><%= review.review %></p>
-        <p><small><%= review.created_at %></small></p>
-      </div>
-    <% }) %>
-  <% } else { %>
-    <p>No reviews yet.</p>
-  <% } %>
-
-  <h2>Leave a Review</h2>
-  <form action="/monument/<%= monument.hramove_id %>/review" method="post">
-    <label for="rating">Rating:</label>
-    <select id="rating" name="rating" required>
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-    </select>
-    <br>
-    <label for="review">Review:</label>
-    <textarea id="review" name="review" required></textarea>
-    <br>
-    <button type="submit">Submit Review</button>
-  </form>
-
-  <a href="/monuments">Back to Monuments</a>
+    <a href="/monuments">Back to Monuments</a>
+  </div>
 </body>
 </html>

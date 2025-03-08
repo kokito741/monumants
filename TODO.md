@@ -5,8 +5,8 @@
 - [] Populate the database with monuments from Bulgaria.
 - [x] Fix sorting column issues in the `/monuments` route.
 - [] Fix UI to be better.
-- [] add category by type of religion .
-- [] add category by type of monuments .
+- [x] add category by type of religion .
+- [x] add category by type of monuments .
 
 - [x] Add My favourite function.
 - [x] Add navigate me to button in detailed and in summary.
