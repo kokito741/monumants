@@ -8,42 +8,42 @@
   <div class="container">
     <h1><%= monument.hramove_name %></h1>
     <img src="<%= monument.hramove_picture_url %>" alt="<%= monument.hramove_name %>">
-    <p><strong>Year Built:</strong> <%= monument.year_build %></p>
-    <p><strong>Location:</strong> <%= monument.hramove_location %></p>
-    <p><strong>Summary:</strong> <%= monument.hramove_summary %></p>
-    <p><strong>Average Rating:</strong> <%= monument.avg_rating %></p>
-    <p><strong>Working Hours:</strong> <%= monument.hramove_working_hours %></p>
-    <p><strong>Details:</strong> <%= monument.details %></p>
-    <p><strong>Monument Type:</strong> <%= monument.monument_type %></p>
-    <p><strong>Religion Type:</strong> <%= monument.religion_type %></p>
+    <p><strong>Година на построяване:</strong> <%= monument.year_build %></p>
+    <p><strong>Местоположение:</strong> <%= monument.hramove_location %></p>
+    <p><strong>обобщение:</strong> <%= monument.hramove_summary %></p>
+    <p><strong>Средна оценка:</strong> <%= monument.avg_rating %></p>
+    <p><strong>работно време:</strong> <%= monument.hramove_working_hours %></p>
+    <p><strong>Подробности:</strong> <%= monument.details %></p>
+    <p><strong>Тип храм:</strong> <%= monument.monument_type %></p>
+    <p><strong>Тип религия:</strong> <%= monument.religion_type %></p>
     <a href="https://www.google.com/maps/dir/?api=1&destination=<%= encodeURIComponent(monument.hramove_name) %>" target="_blank">Navigate Me</a>
 
     <% if (userFavourited) { %>
       <form action="/monument/<%= monument.hramove_id %>/unfavourite" method="post">
-        <button type="submit">Remove from Favourites</button>
+        <button type="submit">Премахване от любими</button>
       </form>
     <% } else { %>
       <form action="/monument/<%= monument.hramove_id %>/favourite" method="post">
-        <button type="submit">Add to Favourites</button>
+        <button type="submit">Добавяне към любими</button>
       </form>
     <% } %>
 
-    <h2>Reviews</h2>
+    <h2>Отзиви</h2>
     <% if (reviews.length > 0) { %>
       <% reviews.forEach(review => { %>
         <div class="review">
-          <p><strong><%= review.username %></strong> rated <%= review.rating %> stars</p>
+          <p><strong><%= review.username %></strong> оценени <%= review.rating %> звезди</p>
           <p><%= review.review %></p>
           <p><small><%= review.created_at %></small></p>
         </div>
       <% }) %>
     <% } else { %>
-      <p>No reviews yet.</p>
+      <p>Все още няма отзиви.</p>
     <% } %>
 
-    <h2>Leave a Review</h2>
+    <h2>Оставете отзив</h2>
     <form action="/monument/<%= monument.hramove_id %>/review" method="post">
-      <label for="rating">Rating:</label>
+      <label for="rating">Оценка:</label>
       <select id="rating" name="rating" required>
         <option value="1">1</option>
         <option value="2">2</option>
@@ -52,13 +52,13 @@
         <option value="5">5</option>
       </select>
       <br>
-      <label for="review">Review:</label>
+      <label for="review">Отзив:</label>
       <textarea id="review" name="review" required></textarea>
       <br>
-      <button type="submit">Submit Review</button>
+      <button type="submit">Изпратете отзив</button>
     </form>
 
-    <a href="/monuments">Back to Monuments</a>
+    <a href="/monuments">Обратно към храмове</a>
   </div>
 </body>
 </html>

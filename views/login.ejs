@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Login</title>
+  <title>Вход</title>
 </head>
 <body>
-  <h1>Login</h1>
+  <h1>Вход</h1>
   <% if (error) { %>
     <p style="color: red;"><%= error %></p>
   <% } %>
   <form action="/login" method="post">
-    <label for="username">Username:</label>
+    <label for="username">Потребителско име:</label>
     <input type="text" id="username" name="username" required>
     <br>
-    <label for="password">Password:</label>
+    <label for="password">Парола:</label>
     <input type="password" id="password" name="password" required>
     <br>
-    <button type="submit">Login</button>
+    <button type="submit">Вход</button>
   </form>
-  <p>Don't have an account? <a href="/register">Register</a></p>
+  <p>Нямате акаунт? <a href="/register">Регистрирайте се</a></p>
 </body>
 </html>

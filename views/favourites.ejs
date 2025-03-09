@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My Favourite Monuments</title>
+  <title>Моите любими храмове</title>
   <style>
     .grid-container {
       display: grid;
@@ -29,7 +29,7 @@
   </style>
 </head>
 <body>
-  <h1>My Favourite Monuments</h1>
+  <h1>Моите любими храмове</h1>
   <div class="grid-container">
     <% monuments.forEach(monument => { %>
       <div class="grid-item">
@@ -37,20 +37,20 @@
           <img src="<%= monument.hramove_picture_url %>" alt="<%= monument.hramove_name %>">
           <div class="details">
             <h3><%= monument.hramove_name %></h3>
-            <p>Year Built: <%= monument.year_build %></p>
-            <p>Location: <%= monument.hramove_location %></p>
-            <p>Summary: <%= monument.hramove_summary %></p>
+            <p>Година на построяване: <%= monument.year_build %></p>
+            <p>Местоположение: <%= monument.hramove_location %></p>
+            <p>обобщение: <%= monument.hramove_summary %></p>
           </div>
           <div class="footer">
-            <span>Average Rating: <%= monument.avg_rating %></span>
-            <span>Total Reviews: <%= monument.total_reviews %></span>
-            <span>Working Hours: <%= monument.hramove_working_hours %></span>
+            <span>Средна оценка: <%= monument.avg_rating %></span>
+            <span>Общо прегледи: <%= monument.total_reviews %></span>
+            <span>Работно време: <%= monument.hramove_working_hours %></span>
             <a href="https://www.google.com/maps/dir/?api=1&destination=<%= encodeURIComponent(monument.hramove_location) %>" target="_blank">Navigate Me</a>
           </div>
         </a>
       </div>
     <% }) %>
   </div>
-  <a href="/monuments">Back to Monuments</a>
+  <a href="/monuments">Обратно към храмове</a>
 </body>
 </html>

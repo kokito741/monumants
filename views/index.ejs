@@ -1,40 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Monuments</title>
+  <title>Храмове</title>
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
   <div class="container">
-    <h1>Monuments</h1>
+    <h1>Храмове</h1>
     <form action="/monuments" method="post">
-      <label for="sortBy">Sort By:</label>
+      <label for="sortBy">Сортиране по:</label>
       <select id="sortBy" name="sortBy">
-        <option value="hramove_name">Name</option>
-        <option value="avg_rating">Rating</option>
-        <option value="year_build">Year Built</option>
-        <option value="total_reviews">Reviews</option>
+        <option value="hramove_name">Име</option>
+        <option value="avg_rating">Рейтинг</option>
+        <option value="year_build">Година на построяване</option>
+        <option value="total_reviews">Отзиви</option>
       </select>
-      <label for="sortOrder">Sort Order:</label>
+      <label for="sortOrder">Ред на сортиране:</label>
       <select id="sortOrder" name="sortOrder">
-        <option value="asc">Ascending</option>
-        <option value="desc">Descending</option>
+        <option value="asc">Възходящо</option>
+        <option value="desc">Низходящ</option>
       </select>
-      <label for="monumentType">Monument Type:</label>
+      <label for="monumentType">Тип Храмове:</label>
       <select id="monumentType" name="monumentType">
-        <option value="">All</option>
+        <option value="">Всички</option>
         <% monumentTypes.forEach(type => { %>
           <option value="<%= type %>"><%= type %></option>
         <% }) %>
       </select>
-      <label for="religionType">Religion Type:</label>
+      <label for="religionType">Тип религия:</label>
       <select id="religionType" name="religionType">
-        <option value="">All</option>
+        <option value="">Всички</option>
         <% religionTypes.forEach(type => { %>
           <option value="<%= type %>"><%= type %></option>
         <% }) %>
       </select>
-      <button type="submit">Sort</button>
+      <button type="submit">Сортиране</button>
     </form>
     <div class="grid-container">
       <% monuments.forEach(monument => { %>
@@ -43,23 +43,23 @@
             <img src="<%= monument.hramove_picture_url %>" alt="<%= monument.hramove_name %>">
             <div class="details">
               <h3><%= monument.hramove_name %></h3>
-              <p>Year Built: <%= monument.year_build %></p>
-              <p>Location: <%= monument.hramove_location %></p>
-              <p>Summary: <%= monument.hramove_summary %></p>
-              <p>Monument Type: <%= monument.monument_type %></p>
-              <p>Religion Type: <%= monument.religion_type %></p>
+              <p>Година на построяване: <%= monument.year_build %></p>
+              <p>Местоположение: <%= monument.hramove_location %></p>
+              <p>обобщение: <%= monument.hramove_summary %></p>
+              <p>Тип Храмове: <%= monument.monument_type %></p>
+              <p>Тип религия: <%= monument.religion_type %></p>
             </div>
             <div class="footer">
-              <span>Average Rating: <%= monument.avg_rating %></span>
-              <span>Total Reviews: <%= monument.total_reviews %></span>
-              <span>Working Hours: <%= monument.hramove_working_hours %></span>
+              <span>Средна оценка: <%= monument.avg_rating %></span>
+              <span>Общо прегледи: <%= monument.total_reviews %></span>
+              <span>Работно време: <%= monument.hramove_working_hours %></span>
               <a href="https://www.google.com/maps/dir/?api=1&destination=<%= encodeURIComponent(monument.hramove_name) %>" target="_blank">Navigate Me</a>
             </div>
           </a>
         </div>
       <% }) %>
     </div>
-    <a href="/favourites">My Favourite Monuments</a>
+    <a href="/favourites">Моите любими Храмове</a>
   </div>
 </body>
 </html>

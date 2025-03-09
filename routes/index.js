@@ -220,11 +220,11 @@ router.post('/login', (req, res) => {
           console.log('User logged in:', user); // Debugging statement
           res.redirect('/monuments');
         } else {
-          res.render('login', { error: 'Invalid credentials' });
+          res.render('login', { error: 'Невалидни идентификационни данни' });
         }
       });
     } else {
-      res.render('login', { error: 'Invalid credentials' });
+      res.render('login', { error: 'Невалидни идентификационни данни' });
     }
   });
 });
@@ -241,7 +241,7 @@ router.post('/register', (req, res) => {
     if (error) throw error;
 
     if (results.length > 0) {
-      res.render('register', { error: 'The account already exists' });
+      res.render('register', { error: 'Акаунтът вече съществува' });
     } else {
       const insertQuery = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
 
