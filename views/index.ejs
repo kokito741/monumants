@@ -3,6 +3,24 @@
 <head>
   <title>Храмове</title>
   <link rel="stylesheet" href="/styles.css">
+  <style>
+    .button-link {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 18px;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 4px;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .button-link:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -39,27 +57,26 @@
     <div class="grid-container">
       <% monuments.forEach(monument => { %>
         <div class="grid-item">
-          <a href="/monument/<%= monument.hramove_id %>">
-            <img src="<%= monument.hramove_picture_url %>" alt="<%= monument.hramove_name %>">
-            <div class="details">
-              <h3><%= monument.hramove_name %></h3>
-              <p>Година на построяване: <%= monument.year_build %></p>
-              <p>Местоположение: <%= monument.hramove_location %></p>
-              <p>обобщение: <%= monument.hramove_summary %></p>
-              <p>Тип Храмове: <%= monument.monument_type %></p>
-              <p>Тип религия: <%= monument.religion_type %></p>
-            </div>
-            <div class="footer">
-              <span>Средна оценка: <%= monument.avg_rating %></span>
-              <span>Общо прегледи: <%= monument.total_reviews %></span>
-              <span>Работно време: <%= monument.hramove_working_hours %></span>
-              <a href="https://www.google.com/maps/dir/?api=1&destination=<%= encodeURIComponent(monument.hramove_name) %>" target="_blank">Навигирайте ме</a>
-            </div>
-          </a>
+          <a href="/monument/<%= monument.hramove_id %>" class="button-link">Вижте подробности</a>
+          <img src="<%= monument.hramove_picture_url %>" alt="<%= monument.hramove_name %>">
+          <div class="details">
+            <h3><%= monument.hramove_name %></h3>
+            <p>Година на построяване: <%= monument.year_build %></p>
+            <p>Местоположение: <%= monument.hramove_location %></p>
+            <p>обобщение: <%= monument.hramove_summary %></p>
+            <p>Тип Храмове: <%= monument.monument_type %></p>
+            <p>Тип религия: <%= monument.religion_type %></p>
+          </div>
+          <div class="footer">
+            <span>Средна оценка: <%= monument.avg_rating %></span>
+            <span>Общо прегледи: <%= monument.total_reviews %></span>
+            <span>Работно време: <%= monument.hramove_working_hours %></span>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=<%= encodeURIComponent(monument.hramove_name) %>" target="_blank" class="button-link">Навигирайте ме</a>
+          </div>
         </div>
       <% }) %>
     </div>
-    <a href="/favourites">Моите любими Храмове</a>
+    <a href="/favourites" class="button-link">Моите любими Храмове</a>
   </div>
 </body>
 </html>
