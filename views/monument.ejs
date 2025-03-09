@@ -16,7 +16,7 @@
     <p><strong>Подробности:</strong> <%= monument.details %></p>
     <p><strong>Тип храм:</strong> <%= monument.monument_type %></p>
     <p><strong>Тип религия:</strong> <%= monument.religion_type %></p>
-    <a href="https://www.google.com/maps/dir/?api=1&destination=<%= encodeURIComponent(monument.hramove_name) %>" target="_blank">Navigate Me</a>
+    <a href="https://www.google.com/maps/dir/?api=1&destination=<%= encodeURIComponent(monument.hramove_name) %>" target="_blank">Навигирайте ме</a>
 
     <% if (userFavourited) { %>
       <form action="/monument/<%= monument.hramove_id %>/unfavourite" method="post">
