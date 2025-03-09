@@ -3,24 +3,6 @@
 <head>
   <title><%= monument.hramove_name %></title>
   <link rel="stylesheet" href="/styles.css">
-  <style>
-    .button-link {
-      display: inline-block;
-      padding: 10px 20px;
-      font-size: 18px;
-      color: #fff;
-      background-color: #007bff;
-      border: none;
-      border-radius: 4px;
-      text-align: center;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .button-link:hover {
-      background-color: #0056b3;
-    }
-  </style>
 </head>
 <body>
   <div class="container">
@@ -34,15 +16,15 @@
     <p><strong>Подробности:</strong> <%= monument.details %></p>
     <p><strong>Тип храм:</strong> <%= monument.monument_type %></p>
     <p><strong>Тип религия:</strong> <%= monument.religion_type %></p>
-    <a href="https://www.google.com/maps/dir/?api=1&destination=<%= encodeURIComponent(monument.hramove_name) %>" target="_blank" class="button-link">Навигирайте ме</a>
+    <a href="https://www.google.com/maps/dir/?api=1&destination=<%= encodeURIComponent(monument.hramove_name) %>" target="_blank">Навигирайте ме</a>
 
     <% if (userFavourited) { %>
       <form action="/monument/<%= monument.hramove_id %>/unfavourite" method="post">
-        <button type="submit" class="button-link">Премахване от любими</button>
+        <button type="submit">Премахване от любими</button>
       </form>
     <% } else { %>
       <form action="/monument/<%= monument.hramove_id %>/favourite" method="post">
-        <button type="submit" class="button-link">Добавяне към любими</button>
+        <button type="submit">Добавяне към любими</button>
       </form>
     <% } %>
 
@@ -73,10 +55,10 @@
       <label for="review">Отзив:</label>
       <textarea id="review" name="review" required></textarea>
       <br>
-      <button type="submit" class="button-link">Изпратете отзив</button>
+      <button type="submit">Изпратете отзив</button>
     </form>
 
-    <a href="/monuments" class="button-link">Обратно към храмове</a>
+    <a href="/monuments">Обратно към храмове</a>
   </div>
 </body>
 </html>
